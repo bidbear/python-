@@ -42,7 +42,7 @@ with open('test.csv','a+',encoding='utf-8') as csvfiles:
 import pymysql
  
 # 打开数据库连接
-db = pymysql.connect(host='localhost',port=3308,user='root',passwd='admin123',db='scraping')
+db = pymysql.connect(host='localhost',port=3308,user='root',passwd='admin123',db='scraping',charset='utf8')
  
 # 使用cursor()方法获取操作游标 
 cursor = db.cursor()
@@ -64,3 +64,4 @@ except:
 # 关闭数据库连接
 db.close()
 ```
+> 在保存爬取的数据的时候，注意数据库中字段的编码格式需要改成utf-8
