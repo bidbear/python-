@@ -42,7 +42,7 @@ with open('test.csv','a+',encoding='utf-8') as csvfiles:
 import pymysql
  
 # 打开数据库连接
-db = pymysql.connect("localhost","testuser","test123","TESTDB" )
+db = pymysql.connect(host='localhost',port=3308,user='root',passwd='admin123',db='scraping')
  
 # 使用cursor()方法获取操作游标 
 cursor = db.cursor()
