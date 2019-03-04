@@ -165,11 +165,11 @@ _id是mongodb自动生成的id，其类型为ObjectId，想要使用就需要转
 python3中提供了该方法，不过需要导入一个库。   
 `from bson.objectid import ObjectId`   
 这样就可以直接使用_id进行查询啦。         
-`collection.find_one({'_id':ObjectId('592550e5d92fac0b8c449f87')})`
-结果排序   
-只要将需要排序的字段放入sort方法即可，Mongodb默认为升序         
-`db.col.find().sort("age")`  
-不过你也可以加一些参数去改变排序的方式。比如倒序，不过要记得先导入pymongo库   
+`collection.find_one({'_id':ObjectId('592550e5d92fac0b8c449f87')})`    
+结果排序     
+只要将需要排序的字段放入sort方法即可，Mongodb默认为升序          
+`db.col.find().sort("age")`   
+不过你也可以加一些参数去改变排序的方式。比如倒序，不过要记得先导入pymongo库     
 ```
 import pymongo
 db.col.find().sort("UserName",pymongo.DESCENDING)
