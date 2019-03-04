@@ -163,8 +163,8 @@ for item in db.col.find({"age":{"$gt":25}}):
 _id是mongodb自动生成的id，其类型为ObjectId，想要使用就需要转换类型。   
 
 python3中提供了该方法，不过需要导入一个库。   
-`from bson.objectid import ObjectId`   
-这样就可以直接使用_id进行查询啦。         
+`from bson.objectid import ObjectId`        
+这样就可以直接使用_id进行查询啦。           
 `collection.find_one({'_id':ObjectId('592550e5d92fac0b8c449f87')})`    
 结果排序     
 只要将需要排序的字段放入sort方法即可，Mongodb默认为升序          
@@ -195,3 +195,36 @@ for item in db.col.find().sort('age',pymongo.ASCENDING):
 `db.col.remove({'name':'王二麻33333'})`   
 删除全部数据（慎用）    
 `db.col.remove()`    
+封装数据库操作    
+```
+from pymongo import MongoClient
+
+class MongoAPI(object):
+    def __init__(self,db_ip,db_port,db_name,table_name):
+        self.db_ip = db_ip
+        self.db_port = db_port
+        self.db_name = db_name
+        self.table_name = table_name
+        self.conn = MongoClient(host=self.db_ip,port=self.db_port)
+        self.sb = self.conn[self.db_name]
+        self.table = self.db[self.table_name]
+
+        def get_one(self,query):
+            return self.table.find_one(query,projection={'_id':False})
+
+        def get_all(self,query):
+            return self.table.find(query)
+
+        def add(self,kv_dict):
+            return self.table.insert(kv_dict)
+
+        def delete(self,query):
+            return self.table.delete_many(query)
+
+        def check_exist(self,query):
+            ret = self.table.find_one(query)
+            return ret != None
+        #如果没有会创建upsert可以指定如果数据存在就更新，不存在就创建数据。$set，更新指定的字段
+        def update(self,query,kv_dict):
+            self.table.update_one(query,{'$set': kv_dict},upsert=True)
+ ```
